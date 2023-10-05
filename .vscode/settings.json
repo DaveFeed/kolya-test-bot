@@ -1,0 +1,16 @@
+{
+    "eslint.validate": ["javascript", "typescript"],
+    "eslint.options": {
+        "configFile": ".eslintrc.js"
+    },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "cSpell.language": "en,ru",
+    "cSpell.words": [
+        "autorestart",
+        "pino",
+        "plusplus"
+    ]
+}
