@@ -2,6 +2,7 @@ import { Scenes } from 'telegraf';
 import { Logger as PinoLogger } from 'pino';
 
 import { MainScene } from 'src/scenes/main/index';
+import { SettingsScene } from 'src/scenes/settings/index';
 import { Context, IScenes, IScene } from 'src/scenes/interfaces';
 
 import { ITelegram as Config } from 'src/configs/interfaces';
@@ -23,7 +24,8 @@ export class Stage {
         this.log.info({}, 'setting up stage: constructor');
 
         this.scenes = {
-            main: new MainScene(config, logger, repositories)
+            main: new MainScene(config, logger, repositories),
+            settings: new SettingsScene(config, logger, repositories)
         };
 
         this.checkScenesMismatch();

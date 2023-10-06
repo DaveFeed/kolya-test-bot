@@ -3,7 +3,7 @@ import { Logger } from 'src/libraries/logger';
 
 import { Database } from 'src/database';
 import { IRepositories } from 'src/repositories/interfaces';
-import { User } from 'src/domain/dto';
+import { Messages, User } from 'src/domain/dto';
 
 export class Repositories {
     private readonly log: PinoLogger;
@@ -15,7 +15,8 @@ export class Repositories {
         this.log.info({}, 'setting up repositories: constructor');
 
         this.repositories = {
-            users: databases.getTable<User>('users')
+            users: databases.getTable<User>('users'),
+            messages: databases.getTable<Messages>('messages')
         };
 
         this.log.info({}, 'repositories are ready: constructor');

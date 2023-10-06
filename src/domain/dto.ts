@@ -3,6 +3,7 @@ export interface User {
     username: string;
     firstName: string;
     lastName: string;
+    realName: string;
     createdAt: Date;
     wasActiveAt: Date;
     isUnlocked?: boolean;
@@ -10,4 +11,8 @@ export interface User {
     turnedOffAt?: Date;
     bannedAt?: Date;
     bannedBy?: number;
+}
+
+export interface Messages {
+    settings_id: number;
 }

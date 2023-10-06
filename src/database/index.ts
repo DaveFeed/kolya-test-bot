@@ -5,6 +5,9 @@ import { QuickDB, SqliteDriver } from 'quick.db';
 
 import { IDatabase as Config } from 'src/configs/interfaces';
 
+import { Scenes } from 'telegraf';
+import { SQLite } from '@telegraf/session/sqlite';
+
 export class Database {
     private readonly db: QuickDB;
 
@@ -47,5 +50,12 @@ export class Database {
 
     public getTable<T>(tableName: string): QuickDB<T> {
         return this.db.table<T>(tableName);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    public getSessionsStorage() {
+        return SQLite<Scenes.SceneSessionData>({
+            filename: path.join(this.config.path, './sessions.sqlite')
+        });
     }
 }

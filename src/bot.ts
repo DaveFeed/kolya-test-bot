@@ -7,7 +7,7 @@ import { IConfig } from 'src/configs/interfaces';
 import { Stage } from 'src/scenes';
 import { Repositories } from 'src/repositories';
 import { Context } from 'src/scenes/interfaces';
-import { IRepositories } from './repositories/interfaces';
+import { IRepositories } from 'src/repositories/interfaces';
 
 const { enter } = Scenes.Stage;
 
@@ -64,10 +64,19 @@ export class BotRunner {
 
             const stage = new Stage(this.logger, this.config.telegram, this.repositories).getStage;
             this.bot.use(this.lockerHandler.bind(this));
-            this.bot.use(session());
+            this.bot.use(session({ store: this.database.getSessionsStorage() }));
             this.bot.use(stage.middleware());
 
             this.bot.start(enter<Context>('main'));
+            this.bot.help(this.helpHandler.bind(this));
+            this.bot.command('info', this.infoHandler.bind(this));
+
+            // todo:: (CHANGE) HARD CODED NAME
+            this.bot.hears('Назад', enter<Context>('main'));
+
+            // this.bot.on('sticker', (ctx) => {
+            //     ctx.sendSticker(ctx.message.sticker.file_id);
+            // });
 
             this.log.info({}, 'init finished: bot');
         } catch (error) {
@@ -94,22 +103,53 @@ export class BotRunner {
                 'Incoming request'
             );
 
-            if (!(await this.repositories?.users.has(`${ctx.from?.id}.id`))) {
+            let user = await this.repositories?.users.get(`${ctx.from?.id}`);
+
+            if (
+                !user?.id ||
+                (ctx.from?.username && user?.username !== ctx.from?.username) ||
+                (ctx.from?.first_name && user?.firstName !== ctx.from?.first_name) ||
+                (ctx.from?.last_name && user?.lastName !== ctx.from?.last_name)
+            ) {
                 await this.repositories?.users.set(`${ctx.from?.id}`, {
                     id: ctx.from?.id,
                     username: ctx.from?.username,
                     firstName: ctx.from?.first_name,
                     lastName: ctx.from?.last_name,
                     // realName: '', // todo:: (ADD) FROM EXCEL DB GET,
-                    createdAt: date,
-                    wasActiveAt: date,
-                    updatedAt: date
+                    ...(!user?.id && {
+                        createdAt: date,
+                        wasActiveAt: date,
+                        updatedAt: date
+                    })
                 });
+
+                user = await this.repositories?.users.get(`${ctx.from?.id}`);
             }
 
             await Promise.allSettled([this.repositories?.users.set(`${ctx.from?.id}.wasActiveAt`, date)]);
 
             next();
+        } catch (e) {
+            this.log.error(e);
+        }
+    }
+
+    private async infoHandler(ctx: Context): Promise<void> {
+        try {
+            ctx.reply(
+                `Бот пишется на коленках, хотелось просто показать концепт.
+                \nСоздатель: @davefeed
+                \nСписок друзей: Пусто :(`
+            );
+        } catch (e) {
+            this.log.error(e);
+        }
+    }
+
+    private async helpHandler(ctx: Context): Promise<void> {
+        try {
+            ctx.reply(`Пока функционала мало чтоб помочь как то, разберись сам лол`);
         } catch (e) {
             this.log.error(e);
         }
