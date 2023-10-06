@@ -1,6 +1,6 @@
 {
     "name": "kolya-test-bot",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Telegram bot, concept for online tests",
     "author": "DaveFeed",
     "license": "ISC",
@@ -47,10 +47,12 @@
     },
     "dependencies": {
         "@pm2/io": "5.0.2",
+        "@telegraf/session": "^2.0.0-beta.6",
         "better-sqlite3": "8.5.0",
         "chalk": "5.2.0",
         "dateformat": "5.0.3",
         "dotenv": "16.3.1",
+        "kysely": "^0.23.5",
         "module-alias": "2.2.3",
         "pino": "8.15.0",
         "pino-pretty": "10.2.0",
