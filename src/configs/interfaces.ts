@@ -13,7 +13,7 @@ export interface IDatabase {
 
 export interface IConstants {
     NODE_ENV: string;
-    BOT_TOKEN: string;
+    BOT_API_TOKEN: string;
     DATABASE_PATH?: string;
     BACKUP_PATH?: string;
     DATABASE_FILE_NAME: string;

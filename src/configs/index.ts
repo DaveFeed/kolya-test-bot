@@ -4,7 +4,7 @@ export class Config implements IConfig {
     constructor() {
         this.constants = {
             NODE_ENV: process.env.NODE_ENV || 'dev',
-            BOT_TOKEN: process.env.BOT_TOKEN as string,
+            BOT_API_TOKEN: process.env.BOT_API_TOKEN as string,
             DATABASE_PATH: process.env.DATABASE_PATH,
             BACKUP_PATH: process.env.BACKUP_PATH,
             DATABASE_FILE_NAME: process.env.DATABASE_FILE_NAME || 'instance.sqlite',

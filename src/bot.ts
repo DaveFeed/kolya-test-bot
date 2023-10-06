@@ -32,7 +32,7 @@ export class BotRunner {
 
         this.config = config;
 
-        this.bot = new Telegraf<Scenes.SceneContext>(this.config.constants.BOT_TOKEN);
+        this.bot = new Telegraf<Scenes.SceneContext>(this.config.constants.BOT_API_TOKEN);
 
         this.database = new Database(this.config.database, this.logger);
 
